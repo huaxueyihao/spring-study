@@ -69,3 +69,21 @@
     （2）根据配置文件找到对应的类，并实例化
     （3）调用示例化后的实例
 
+### 2.4 Spring的结构组成
+#### 2.4.2 核心类介绍
+
+    DefaultListableBeanFactory、XmlBeanFactory关系
+    1.1 XmlBeanFactory继承DefaultListableBeanFactory
+    1.2 DefaultListableBeanFactory是Spring注册及加载bean的默认实现。
+    1.3 XmlBeanFactory自定义XML读取器XmlBeanDefinitionReader，实现了个性化的BeanDefinitionReader。
+    1.4 DefaultListableBeanFactory继承AbstractAutowireCapableBeeanFactory并实现了COnfigurableBeanFactory以及BeanDefinitionRegistry接口。
+    
+    类图src/main/resources/spring/chapter02/DefaultListableBeanFactory.pdf
+    1、ConfigurableBeanFactory:提供配置factory的各种法法。
+    2、ListableBeanFactory:根据各种添加获取bean的配置清单。
+    3、AbstractBeanFactory:综合FactoryBeanRegistrySupport和ConfigurableBeanFactory的功能
+    4、AutowireCapableBeanFactory:提供创建bean、自动注入、初始化以及应用bean的处理器
+    5、AbstractAutowireCapableBeanFactory:综合AbstractBeanFactory并对接口AutowireCapableBeanFactory进行实现
+    6、ConfigurableListableBeanFactory:BeanFactory配置清单
+    7、DefaultListableBeanFactory:Z综合上面的功能，主要是对bean注册后的处理
+    
