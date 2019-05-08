@@ -1,10 +1,5 @@
 package com.springmvc.study.chapter02.bean;
 
-/**
- * @Description:
- * @Author: huaxueyihao
- * @Version:
- **/
 public class MyTestBean
 {
 
