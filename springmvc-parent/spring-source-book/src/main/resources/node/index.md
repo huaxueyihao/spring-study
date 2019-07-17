@@ -85,5 +85,22 @@
     4、AutowireCapableBeanFactory:提供创建bean、自动注入、初始化以及应用bean的处理器
     5、AbstractAutowireCapableBeanFactory:综合AbstractBeanFactory并对接口AutowireCapableBeanFactory进行实现
     6、ConfigurableListableBeanFactory:BeanFactory配置清单
-    7、DefaultListableBeanFactory:Z综合上面的功能，主要是对bean注册后的处理
+    7、DefaultListableBeanFactory:综合上面的功能，主要是对bean注册后的处理
+    
+    XmlBeanDefinitionReader(读取、解析、注册)
+    1、ResourceLoader:定义资源加载器，主要应用于根绝给定的资源文件地址返回对应的Resource
+    2、BeanDefinitionReader：主要定义资源文件读取并转换为BeanDefinition的各个功能
+    3、EnvironmentCapable：定义获取Environment方法
+    4、DocumentLoader：定义从资源文件加载带装换为Document功能
+    5、AbstractBeanDefinitionReader：对EnvironmentCapable、BeanDefinitionReader类定义功能进行实现。
+    6、BeanDefinitionDocumentReader：定义读取Document并注册BeanDefinition功能
+    7、BeanDefinitionParserDelegate：定义解析Element的各种方法。
+    
+    ![avatar](http://pus7zrxh4.bkt.clouddn.com/XmlBeanDefinitionReader.png)
+    
+    
+    
+    
+    
+    
     
