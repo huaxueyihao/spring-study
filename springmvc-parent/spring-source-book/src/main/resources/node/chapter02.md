@@ -104,8 +104,95 @@
     
 ### 2.5 容器的基础XmlBeanFactory
     
-    BeanFactory bf = new XmlBeanFactory(new ClassPathResource("beanFactoryTest.xml"));
+    XmlBeanFactory bf = new XmlBeanFactory(new ClassPathResource("spring/chapter02/applicationContext.xml"));
+   
+#### 2.5.1 配置文件封装
     
+    
+    InputStreamSource封装任何能返回InputStream的类，如File，Classpath下的资源和Byte Array。
+    
+    package org.springframework.core.io;
+    
+    import java.io.IOException;
+    import java.io.InputStream;
+    
+    public interface InputStreamSource {
+        InputStream getInputStream() throws IOException;
+    }
+   
+    
+    
+    Resouce接口抽象了所有Spring内部使用到的底层资源：File、URL、Classpath等。
+    
+    package org.springframework.core.io;
+    
+    import java.io.File;
+    import java.io.IOException;
+    import java.net.URI;
+    import java.net.URL;
+    
+    public interface Resource extends InputStreamSource {
+        boolean exists();
+        
+        // 可读性
+        boolean isReadable();
+    
+        // 是否处于打开
+        boolean isOpen();
+    
+        URL getURL() throws IOException;
+    
+        URI getURI() throws IOException;
+    
+        File getFile() throws IOException;
+    
+        long contentLength() throws IOException;
+    
+        long lastModified() throws IOException;
+    
+        Resource createRelative(String var1) throws IOException;
+    
+        String getFilename();
+    
+        String getDescription();
+    }
+    
+    对不同来源的资源文件都有相应的Resource实现：
+    文件(FileSystemResource),
+    Classpath资源(ClassPathResource),
+    URL资源(UrlResource),
+    InputStream资源(InputStreamResource),
+    Byte数组(ByteArrayResouce)
+    
+    ClassPathResource获得InputStream
+    
+    public InputStream getInputStream() throws IOException {
+        InputStream is;
+        if (this.clazz != null) {
+            is = this.clazz.getResourceAsStream(this.path);
+        } else if (this.classLoader != null) {
+            is = this.classLoader.getResourceAsStream(this.path);
+        } else {
+            is = ClassLoader.getSystemResourceAsStream(this.path);
+        }
+
+        if (is == null) {
+            throw new FileNotFoundException(this.getDescription() + " cannot be opened because it does not exist");
+        } else {
+            return is;
+        }
+    }
+    
+    FileSystemResource获得InputStream
+    
+    public InputStream getInputStream() throws IOException {
+        return new FileInputStream(this.file);
+    }
+    
+    Resource完成对配置文件的封装工作，之后配置文件的读取工作交给XmlBeanDefinitionReader
+    
+    
+#### 2.5.2 加载Bean
     
     
     
