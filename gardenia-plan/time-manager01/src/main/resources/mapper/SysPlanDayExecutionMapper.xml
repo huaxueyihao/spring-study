@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.time.plan.mapper.SysPlanDayExecutionMapper">
+
+    <resultMap id="BaseResultMap" type="com.time.plan.model.SysPlanDayExecution">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
+        <result column="type_desc" jdbcType="VARCHAR" property="typeDesc"/>
+        <result column="start_time" jdbcType="VARCHAR" property="startTime"/>
+        <result column="end_time" jdbcType="DATE" property="endTime"/>
+        <result column="plan_state" jdbcType="DATE" property="planState"/>
+        <result column="use_time" jdbcType="INTEGER" property="useTime"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="SumUseTimeMap" type="com.time.plan.bean.SumUseTimeDto">
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
+        <result column="type_desc" jdbcType="VARCHAR" property="typeDesc"/>
+        <result column="sum_use_time" jdbcType="INTEGER" property="sumUserTime"/>
+        <result column="start_time_str" jdbcType="VARCHAR" property="startTimeStr"/>
+
+    </resultMap>
+
+    <select id="selectByStartTimeBetween" resultMap="BaseResultMap">
+        select t.* from sys_plan_day_execution t where t.start_time between #{startTime}  and #{endTime}
+    </select>
+
+    <select id="sumUseTimeGroupByType" resultMap="SumUseTimeMap">
+        select t.type_name,t.type_desc,sum(t.use_time) sum_use_time from sys_plan_day_execution t GROUP BY t.type_name,t.type_desc order by sum(t.use_time) asc
+    </select>
+
+
+    <select id="sumUseTimeGroupByTypeAndStartTimeBetween" resultMap="SumUseTimeMap">
+        select t.type_name,t.type_desc,sum(t.use_time) sum_use_time from sys_plan_day_execution t where t.start_time between #{start} and #{end}  GROUP BY t.type_name,t.type_desc order by sum(t.use_time) asc
+    </select>
+
+    <select id="selectTypeNameByStartTimeOrderByUseTimeDesc" resultType="java.util.List">
+        select t.type_name from sys_plan_day_execution t GROUP BY t.type_name order by sum(t.use_time) desc
+    </select>
+
+    <select id="sumUseTimeGroupByTypeAndStartTime" resultMap="SumUseTimeMap">
+        select t.type_name,t.type_desc,DATE_FORMAT(t.start_time,'%Y-%m-%d') start_time_str ,sum(t.use_time) sum_use_time from sys_plan_day_execution t GROUP BY t.type_name,t.type_desc,DATE_FORMAT(t.start_time,'%Y-%m-%d') order by DATE_FORMAT(t.start_time,'%Y-%m-%d'),sum(t.use_time)
+    </select>
+
+    <select id="sumUseTimeGroupByTypeStartTimeAndStartTimeBetween" resultMap="SumUseTimeMap">
+        select t.type_name,t.type_desc,DATE_FORMAT(t.start_time,'%Y-%m-%d') start_time_str ,sum(t.use_time) sum_use_time from sys_plan_day_execution t where t.start_time between #{start} and #{end} GROUP BY t.type_name,t.type_desc,DATE_FORMAT(t.start_time,'%Y-%m-%d') order by DATE_FORMAT(t.start_time,'%Y-%m-%d'),sum(t.use_time)
+    </select>
+
+
+</mapper>

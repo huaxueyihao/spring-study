@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <link rel="stylesheet" href="../layuimini/lib/layui-v2.5.4/css/layui.css" media="all">
+    <link rel="stylesheet" href="../layuimini/css/public.css" media="all">
+    <link rel="stylesheet" href="../layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <!--        <link rel="stylesheet" href="../layuimini/js/lay-module/treeSelect/ztree/ztree.css" media="all">-->
+    <!--        <link rel="stylesheet" href="../layuimini/js/lay-module/treeSelect/treeSelect/treeSelect.css" media="all">-->
+    <style>
+        .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
+            height: 34px;
+            line-height: 34px;
+            padding: 0 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="layui-elem-field layuimini-search">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input" name="dateTime" id="dateTime"
+                                       autocomplete="off"
+                                       placeholder="yyyy-MM-dd">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn" lay-submit="" lay-filter="report-search-btn">搜索</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <div id="main" style="width: 600px;height:400px;"></div>
+        <hr>
+        <div id="lineChart" style="width: 900px;height:400px;"></div>
+
+    </div>
+</div>
+<!-- 操作列 -->
+<script type="text/html" id="auth-state">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script src="../layuimini/lib/layui-v2.5.4/layui.js" charset="utf-8"></script>
+<script src="../layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    layui.use(['table', 'treetable', 'treeSelect', 'form', 'echarts', 'laydate'], function () {
+        var $ = layui.jquery
+            , form = layui.form
+            , echarts = layui.echarts
+            , laydate = layui.laydate
+
+        laydate.render({
+            elem: '#dateTime'
+            , type: 'date'
+        });
+
+        form.on('submit(report-search-btn)', function (data) {
+            var dateTime = data.field.dateTime;
+            var time = dateTime ? new Date(dateTime).getTime() : new Date().getTime();
+            loadPieChart(time);
+            loadLineChart(time);
+        })
+
+        var time = new Date().getTime();
+        loadPieChart(time);
+        loadLineChart(time);
+
+        function loadPieChart(dateTime) {
+            // 饼图
+            var myChart = echarts.init(document.getElementById('main'), 'macarons');
+            var option = {
+                title: {
+                    text: '行为耗时统计',
+                    subtext: '周记录',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} h"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data: []
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {show: true},
+                        dataView: {show: true, readOnly: false},
+                        magicType: {
+                            show: true,
+                            type: ['pie', 'funnel'],
+                            option: {
+                                funnel: {
+                                    x: '25%',
+                                    width: '50%',
+                                    funnelAlign: 'left',
+                                    max: 1548
+                                }
+                            }
+                        },
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                calculable: true,
+                series: [
+                    {
+                        name: '耗时',
+                        type: 'pie',
+                        radius: '55%',//饼图的半径大小
+                        center: ['50%', '60%'],//饼图的位置
+                        data: []
+                    }
+                ]
+            };
+            $.ajax({
+                url: '/planDayExecution/getAllGroupByType/' +dateTime,
+                method: 'get',
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.success) {
+                        var data = res.data;
+                        if (data) {
+                            var series = [
+                                {
+                                    name: '耗时',
+                                    type: 'pie',
+                                    radius: '55%',//饼图的半径大小
+                                    center: ['50%', '60%'],//饼图的位置
+                                    data: data.seriesDataList
+                                }
+                            ]
+
+                            var legend = {
+                                orient: 'vertical',
+                                x: 'left',
+                                data: data.lengendData
+                            };
+
+                            option.legend = legend;
+                            option.series = series;
+                            myChart.setOption(option)
+
+                            // data.calculable = true;
+                            // data.toolBox = toolBox;
+                            // myChart.setOption(res.data);
+                        }
+                    } else {
+                        layer.msg(res.msg, {
+                            icon: 7
+                        });
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        function loadLineChart(dateTime) {
+            // 折线图
+            var lineChart = echarts.init(document.getElementById('lineChart'), 'macarons');
+            var lineOption = {
+                title: {
+                    text: '行为记录折线图'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '邮件营销',
+                        type: 'line',
+                        stack: '总量',
+                        data: [120, 132, 101, 134, 90, 230, 210]
+                    },
+                    {
+                        name: '联盟广告',
+                        type: 'line',
+                        stack: '总量',
+                        data: [220, 182, 191, 234, 290, 330, 310]
+                    },
+                    {
+                        name: '视频广告',
+                        type: 'line',
+                        stack: '总量',
+                        data: [150, 232, 201, 154, 190, 330, 410]
+                    },
+                    {
+                        name: '直接访问',
+                        type: 'line',
+                        stack: '总量',
+                        data: [320, 332, 301, 334, 390, 330, 320]
+                    },
+                    {
+                        name: '搜索引擎',
+                        type: 'line',
+                        stack: '总量',
+                        data: [820, 932, 901, 934, 1290, 1330, 1320]
+                    }
+                ]
+            };
+            $.ajax({
+                url: '/planDayExecution/getAllGroupByTypeAndStartTime/'+dateTime,
+                method: 'get',
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.success) {
+                        var data = res.data;
+                        if (data) {
+                            var xAxis = {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: data.xAxisData
+                            }
+
+                            // var legend = {
+                            //     data: data.lengendData
+                            // };
+
+                            lineOption.legend = {
+                                data: data.legendData
+                            }
+                            lineOption.xAxis = xAxis;
+                            lineOption.series = data.series;
+
+                            console.log('开始');
+                            console.log(data);
+                            console.log(lineOption);
+                            console.log('结束');
+                            lineChart.setOption(lineOption)
+
+
+                            // data.calculable = true;
+                            // data.toolBox = toolBox;
+                            // myChart.setOption(res.data);
+                        }
+                    } else {
+                        layer.msg(res.msg, {
+                            icon: 7
+                        });
+                    }
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+
+    })
+</script>
+</body>
+</html>
