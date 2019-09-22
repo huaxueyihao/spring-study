@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.time.plan.mapper.SysPlanMapper">
+  <resultMap id="BaseResultMap" type="com.time.plan.model.SysPlan">
+    <!--@mbg.generated generated on Sun Sep 22 22:08:51 CST 2019.-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="plan_state" jdbcType="VARCHAR" property="planState" />
+    <result column="use_time" jdbcType="BIGINT" property="useTime" />
+    <result column="total_plan_amount" jdbcType="INTEGER" property="totalPlanAmount" />
+    <result column="finish_plan_amount" jdbcType="INTEGER" property="finishPlanAmount" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Sun Sep 22 22:08:51 CST 2019.-->
+    id, `type`, title, start_time, end_time, plan_state, use_time, total_plan_amount, 
+    finish_plan_amount, remark, create_time, update_time
+  </sql>
+</mapper>
