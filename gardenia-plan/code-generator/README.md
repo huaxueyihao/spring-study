@@ -42,6 +42,9 @@ mybatis逆向工程工具
     
 ![avatar](src/main/resources/images/code_generator_table_01.jpg)
 ![avatar](src/main/resources/images/code_generator_table_02.jpg)
+    
+    ⬇️下面图，和⬆️上面图是两种生成方式，选择一个即可
+    
 ![avatar](src/main/resources/images/code_generator_table_03.jpg)
 ![avatar](src/main/resources/images/code_generator_table_04.jpg)
 
