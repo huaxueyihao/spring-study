@@ -7,5 +7,5 @@ import tk.mybatis.mapper.common.MySqlMapper;
  * mapper接口的父类
  * @param <T>
  */
-public interface MyMapperSuppurt<T> extends Mapper<T>,MySqlMapper<T> {
+public interface MyMapperSupport<T> extends Mapper<T>,MySqlMapper<T> {
 }

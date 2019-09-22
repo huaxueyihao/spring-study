@@ -175,6 +175,7 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
         List<SumUseTimeDto> typeNameList = sysPlanDayExecutionMapper.sumUseTimeGroupByTypeAndStartTimeBetween(firstDayOfWeek, sevenDayOfWeek);
         if (typeNameList != null && typeNameList.size() > 0) {
 
+            // TODO 这里的sql是mysql ，h2不支持
             List<SumUseTimeDto> sumUseTimeDtos = sysPlanDayExecutionMapper.sumUseTimeGroupByTypeStartTimeAndStartTimeBetween(firstDayOfWeek, sevenDayOfWeek);
             // 标题处的列表轴数据
             List<String> typeDescList = typeNameList.stream().map(dto -> dto.getTypeDesc()).collect(Collectors.toList());

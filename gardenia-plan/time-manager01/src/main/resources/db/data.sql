@@ -21,7 +21,7 @@ insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values (
 -- insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('年计划',6,'/plan/index','','_self');
 -- insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('季计划',6,'','','_self');
 -- insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('月计划',6,'','','_self');
--- insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('周计划',6,'','','_self');
+insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('计划',6,'/plan/planIndex','','_self');
 insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('行为记录',6,'/plan/dayExecutionIndex2','','_self');
 insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('行为统计',6,'/plan/executionReport','','_self');
 -- insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('日计划',6,'/plan/dayExecutionIndex','','_self');
@@ -32,7 +32,7 @@ insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values (
 -- insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('阅读小结',12,'','','_self');
 
 insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('个人中心',1,'','','_self');
-insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('基本资料',9,'','','_self');
+insert into sys_menu (menu_name,parent_id,route_url,little_icon,target) values ('基本资料',11,'','','_self');
 
 
 
@@ -59,4 +59,7 @@ insert into sys_plan_type (type_name,type_desc,bg_color,user_id) values ('SPORT'
 
 
 
-
+-- 计划执行
+insert into `sys_plan_day_execution` ( `start_time`, `plan_state`, `use_time`, `title`, `type_name`, `remark`, `location`, `user_id`, `end_time`, `type_desc`, `create_time`, `update_time`) values ( '2019-09-20 00:00:00', null, '390', '睡觉', 'SLEEPING', '12点以后休息，睡的晚了', '', '0', '2019-09-20 06:30:00', '睡眠', '2019-09-17 20:01:33', '2019-09-20 20:37:20');
+insert into `sys_plan_day_execution` ( `start_time`, `plan_state`, `use_time`, `title`, `type_name`, `remark`, `location`, `user_id`, `end_time`, `type_desc`, `create_time`, `update_time`) values (  '2019-09-20 06:00:00', null, '500', '阅读', 'READING', '12点以后休息，睡的晚了', '', '0', '2019-09-20 18:00:00', '阅读', '2019-09-17 20:01:33', '2019-09-20 20:37:20');
+insert into `sys_plan_day_execution` ( `start_time`, `plan_state`, `use_time`, `title`, `type_name`, `remark`, `location`, `user_id`, `end_time`, `type_desc`, `create_time`, `update_time`) values (  '2019-09-20 06:00:00', null, '120', '运动', 'SPORT', '12点以后休息，睡的晚了', '', '0', '2019-09-20 18:00:00', '运动', '2019-09-17 20:01:33', '2019-09-20 20:37:20');

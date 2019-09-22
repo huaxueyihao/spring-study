@@ -59,6 +59,23 @@ create table sys_plan_type (
         on update CURRENT_TIMESTAMP comment '修改时间'
 )  default charset=utf8 ;
 
+-- 计划表
+drop table if exists sys_plan;
+create table sys_plan (
+        id bigint(20) primary key auto_increment,
+        type char(1) not null comment '计划类型：年/季/月/周',
+        title varchar(100) not null comment '计划主题',
+        start_time datetime not null comment '开始时间：年月日时分秒',
+        end_time datetime not null comment '结束时间：年月日时分秒',
+        plan_state varchar(1) default 1 comment '状态，1：计划，2：执行，3：暂停，4，延后：5：完成，',
+        use_time bigint(10) comment '耗时',
+        total_plan_amount INTEGER(10) comment  '计划量:比如，书籍多少页，视频多少集，可进行量化的量或者某个计划分了1，2，3，4个阶段，共4阶段，完成到几阶段',
+        finish_plan_amount INTEGER(10) comment  '已完成计划量:自己估算',
+        remark varchar (255) comment '说明',
+        create_time timestamp  default CURRENT_TIMESTAMP comment '创建时间',
+        update_time timestamp  default CURRENT_TIMESTAMP
+            on update CURRENT_TIMESTAMP comment '修改时间'
+)  default charset=utf8 ;
 
 -- 日计划执行表
 drop table if exists sys_plan_day_execution;

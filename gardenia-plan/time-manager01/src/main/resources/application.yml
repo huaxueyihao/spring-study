@@ -25,7 +25,7 @@ spring:
 #    username: root
 #    password: XXXX
 #    url: jdbc:mysql://localhost:3306/time_manager?useUnicode=true&characterEncoding=gbk&autoReconnect=true&failOverReadOnly=false
-    ######## mysql 作为数据库 end ######
+#    ####### mysql 作为数据库 end ######
 
 #  h2:
 #    console:

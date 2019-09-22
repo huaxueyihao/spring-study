@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <link rel="stylesheet" href="../layuimini/lib/layui-v2.5.4/css/layui.css" media="all">
+    <link rel="stylesheet" href="../layuimini/css/public.css" media="all">
+    <link rel="stylesheet" href="../layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="../layuimini/js/lay-module/formSelects/formSelects-v4.css" media="all">
+    <!--        <link rel="stylesheet" href="../layuimini/js/lay-module/treeSelect/ztree/ztree.css" media="all">-->
+    <!--        <link rel="stylesheet" href="../layuimini/js/lay-module/treeSelect/treeSelect/treeSelect.css" media="all">-->
+    <style>
+        .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
+            height: 34px;
+            line-height: 34px;
+            padding: 0 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form" action="" lay-filter="example">
+            <input type="hidden" name="id" id="primaryKey">
+            <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin"
+                 style="padding: 20px 0 0 0;">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">主题</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="title" lay-verify="required" placeholder="请输入用户名"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">类型</label>
+                        <div class="layui-input-inline">
+                            <select name="type"  xm-select="select1" xm-select-radio="" xm-select-search="" lay-verify="required" lay-search="">
+                                <option value="">直接选择或搜索选择</option>
+                                <option value="1">年</option>
+                                <option value="2">季</option>
+                                <option value="3">月</option>
+                                <option value="4">周</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="layui-form-item">
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">开始时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="startTime" id="startTime" autocomplete="off"
+                                   placeholder="yyyy-MM-dd HH:mm:ss">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">结束时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="endTime" id="endTime" autocomplete="off"
+                                   placeholder="yyyy-MM-dd HH:mm:ss">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">计划总量</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="totalPlanAmount" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入内容" name="remark" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+
+                </div>
+
+                <hr/>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="save">提交</button>
+                        <button type="button" class="layui-btn layui-btn-primary" id="close" lay-filter="close">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- 操作列 -->
+<script type="text/html" id="auth-state">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script src="../layuimini/lib/layui-v2.5.4/layui.js" charset="utf-8"></script>
+<script src="../layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<!--<script src="../layuimini/js/lay-module/formSelects/formSelects.js" charset="utf-8"></script>-->
+<script>
+
+    layui.config({
+        base: '../layuimini/js/lay-module/' //此处路径请自行处理, 可以使用绝对路径
+    }).extend({
+        formSelects: 'formSelects/formSelects'
+    });
+
+    layui.use(['table', 'treetable', 'treeSelect', 'form', 'iconPickerFa', 'laydate','formSelects'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+        var formSelects = layui.formSelects
+            , iconPickerFa = layui.iconPickerFa,
+            laydate = layui.laydate
+
+
+
+        laydate.render({
+            elem: '#startTime'
+            , type: 'date'
+        });
+
+        laydate.render({
+            elem: '#endTime'
+            , type: 'date'
+        });
+
+
+
+        // 提交
+        form.on('submit(save)', function (data) {
+            var url = data.field.id ? '/plan/update' : '/plan/add';
+            var tips = data.field.id ? '编辑' : '新增';
+            console.log(data.field);
+            $.ajax({
+                url: url,
+                data: JSON.stringify(data.field),
+                contentType: 'application/json;charset=UTF-8',
+                cache: false,
+                async: false,
+                type: "POST",
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result);
+                    if (result.success) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layui.table.reload('plan-table'); //主页代码，第一个参数为： 父页面的表格属性 id名
+                        parent.layer.close(index); //成功再执行关闭
+                        parent.layer.msg(tips + "成功", {
+                            icon: 6
+                        });
+                    } else {
+                        layer.msg(result.msg);
+
+                    }
+                },
+                error: function (res) {
+                }
+            });
+            return false;
+        });
+
+        // 关闭
+        $('#close').click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index); //成功再执行关闭
+        })
+
+
+        var primaryKey = $("#primaryKey").val();
+        if (primaryKey) {
+            $.ajax({
+                url: '/plan/detail/' + primaryKey,
+                method: 'get',
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.success) {
+                        form.val('example', {
+                            "type": res.data.type,
+                            "title": res.data.title,
+                            "startTime": res.data.startTime,
+                            "endTime": res.data.endTime,
+                            "totalPlanAmount": res.data.totalPlanAmount,
+                            "finishPlanAmount": res.data.finishPlanAmount,
+                            "remark": res.data.remark
+                        })
+
+                    } else
+                        layer.msg(res.msg);
+                },
+                error: function (data) {
+                }
+            });
+        } else {
+        }
+
+
+    });
+</script>
+</body>
+</html>

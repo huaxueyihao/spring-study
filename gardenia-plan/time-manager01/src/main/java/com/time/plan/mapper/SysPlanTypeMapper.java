@@ -1,15 +1,11 @@
 package com.time.plan.mapper;
 
 
-import com.time.plan.common.MyMapperSuppurt;
-import com.time.plan.model.SysPlanDayExecution;
+import com.time.plan.common.MyMapperSupport;
 import com.time.plan.model.SysPlanType;
 import org.apache.ibatis.annotations.Param;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-public interface SysPlanTypeMapper extends MyMapperSuppurt<SysPlanType> {
+public interface SysPlanTypeMapper extends MyMapperSupport<SysPlanType> {
 
     int countByTypeName(@Param("typeName") String typeName);
 
