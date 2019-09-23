@@ -36,7 +36,8 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">类型</label>
                         <div class="layui-input-inline">
-                            <select name="type"  xm-select="select1" xm-select-radio="" xm-select-search="" lay-verify="required" lay-search="">
+                            <select name="type" xm-select="select1" xm-select-radio="" xm-select-search=""
+                                    lay-verify="required" lay-search="">
                                 <option value="">直接选择或搜索选择</option>
                                 <option value="1">年</option>
                                 <option value="2">季</option>
@@ -69,10 +70,21 @@
                 </div>
 
                 <div class="layui-form-item">
-                    <label class="layui-form-label">计划总量</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="totalPlanAmount" placeholder="" autocomplete="off" class="layui-input">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">计划量下线</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="minTotalPlanAmount" placeholder="" autocomplete="off"
+                                   class="layui-input">
+                        </div>
                     </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">计划量上线</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="maxTotalPlanAmount" placeholder="" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="layui-form-item layui-form-text">
@@ -117,13 +129,12 @@
         formSelects: 'formSelects/formSelects'
     });
 
-    layui.use(['table', 'treetable', 'treeSelect', 'form', 'iconPickerFa', 'laydate','formSelects'], function () {
+    layui.use(['table', 'treetable', 'treeSelect', 'form', 'iconPickerFa', 'laydate', 'formSelects'], function () {
         var $ = layui.jquery;
         var form = layui.form;
         var formSelects = layui.formSelects
             , iconPickerFa = layui.iconPickerFa,
             laydate = layui.laydate
-
 
 
         laydate.render({
@@ -135,7 +146,6 @@
             elem: '#endTime'
             , type: 'date'
         });
-
 
 
         // 提交
@@ -191,7 +201,8 @@
                             "title": res.data.title,
                             "startTime": res.data.startTime,
                             "endTime": res.data.endTime,
-                            "totalPlanAmount": res.data.totalPlanAmount,
+                            "minTotalPlanAmount": res.data.minTotalPlanAmount,
+                            "maxTotalPlanAmount": res.data.maxTotalPlanAmount,
                             "finishPlanAmount": res.data.finishPlanAmount,
                             "remark": res.data.remark
                         })

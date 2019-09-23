@@ -54,10 +54,16 @@ public class SysPlan {
     private Long useTime;
 
     /**
-     * 计划量:比如，书籍多少页，视频多少集，可进行量化的量或者某个计划分了1，2，3，4个阶段，共4阶段，完成到几阶段
+     * 计划量最小值:比如，书籍多少页，视频多少集，可进行量化的量或者某个计划分了1，2，3，4个阶段，共4阶段，完成到几阶段
      */
-    @Column(name = "total_plan_amount")
-    private Integer totalPlanAmount;
+    @Column(name = "min_total_plan_amount")
+    private Integer minTotalPlanAmount;
+
+    /**
+     * 计划量最大值:比如，书籍多少页，视频多少集，可进行量化的量或者某个计划分了1，2，3，4个阶段，共4阶段，完成到几阶段
+     */
+    @Column(name = "max_Total_plan_amount")
+    private Integer maxTotalPlanAmount;
 
     /**
      * 已完成计划量:自己估算
@@ -205,22 +211,20 @@ public class SysPlan {
         this.useTime = useTime;
     }
 
-    /**
-     * 获取计划量:比如，书籍多少页，视频多少集，可进行量化的量或者某个计划分了1，2，3，4个阶段，共4阶段，完成到几阶段
-     *
-     * @return total_plan_amount - 计划量:比如，书籍多少页，视频多少集，可进行量化的量或者某个计划分了1，2，3，4个阶段，共4阶段，完成到几阶段
-     */
-    public Integer getTotalPlanAmount() {
-        return totalPlanAmount;
+    public Integer getMinTotalPlanAmount() {
+        return minTotalPlanAmount;
     }
 
-    /**
-     * 设置计划量:比如，书籍多少页，视频多少集，可进行量化的量或者某个计划分了1，2，3，4个阶段，共4阶段，完成到几阶段
-     *
-     * @param totalPlanAmount 计划量:比如，书籍多少页，视频多少集，可进行量化的量或者某个计划分了1，2，3，4个阶段，共4阶段，完成到几阶段
-     */
-    public void setTotalPlanAmount(Integer totalPlanAmount) {
-        this.totalPlanAmount = totalPlanAmount;
+    public void setMinTotalPlanAmount(Integer minTotalPlanAmount) {
+        this.minTotalPlanAmount = minTotalPlanAmount;
+    }
+
+    public Integer getMaxTotalPlanAmount() {
+        return maxTotalPlanAmount;
+    }
+
+    public void setMaxTotalPlanAmount(Integer maxTotalPlanAmount) {
+        this.maxTotalPlanAmount = maxTotalPlanAmount;
     }
 
     /**

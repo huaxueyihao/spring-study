@@ -10,7 +10,8 @@
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="plan_state" jdbcType="VARCHAR" property="planState" />
     <result column="use_time" jdbcType="BIGINT" property="useTime" />
-    <result column="total_plan_amount" jdbcType="INTEGER" property="totalPlanAmount" />
+    <result column="min_total_plan_amount" jdbcType="INTEGER" property="minTotalPlanAmount" />
+    <result column="max_total_plan_amount" jdbcType="INTEGER" property="maxTotalPlanAmount" />
     <result column="finish_plan_amount" jdbcType="INTEGER" property="finishPlanAmount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -18,7 +19,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated generated on Sun Sep 22 22:08:51 CST 2019.-->
-    id, `type`, title, start_time, end_time, plan_state, use_time, total_plan_amount, 
+    id, `type`, title, start_time, end_time, plan_state, use_time, min_total_plan_amount,max_total_plan_amount,
     finish_plan_amount, remark, create_time, update_time
   </sql>
 

@@ -139,7 +139,7 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
         LocalDateTime firstDayOfWeek = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         cal = GardeniaDateUtil.calendarAddDay(firstDayOfWeek, 6);
         // 星期七
-        LocalDateTime sevenDayOfWeek = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        LocalDateTime sevenDayOfWeek = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 23, 59, 59);
 
 
 //        List<SumUseTimeDto> sumUseTimeDtos = sysPlanDayExecutionMapper.sumUseTimeGroupByType();
@@ -168,7 +168,7 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
         LocalDateTime firstDayOfWeek = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
         cal = GardeniaDateUtil.calendarAddDay(firstDayOfWeek, 6);
         // 星期七
-        LocalDateTime sevenDayOfWeek = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        LocalDateTime sevenDayOfWeek = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 23, 59, 59);
 
         Map<String, Object> map = new HashMap<>();
         // 名称 按耗时降序排序
@@ -187,7 +187,7 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
             List<String> dates = new ArrayList<>();
             LocalDate firstLocalDate = LocalDate.of(firstDayOfWeek.getYear(), firstDayOfWeek.getMonthValue(), firstDayOfWeek.getDayOfMonth());
             dates.add(firstLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            for (int i = 1; i < 6; i++) {
+            for (int i = 1; i < 7; i++) {
                 cal = GardeniaDateUtil.calendarAddDay(firstDayOfWeek, i);
                 LocalDate tempTime = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
                 String format = tempTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
