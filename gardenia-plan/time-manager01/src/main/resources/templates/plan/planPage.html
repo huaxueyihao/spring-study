@@ -36,7 +36,8 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">类型</label>
                         <div class="layui-input-inline">
-                            <select name="type" xm-select="select1" xm-select-radio="" xm-select-search=""
+<!--                            xm-select="select1" xm-select-radio="" xm-select-search=""-->
+                            <select name="type"
                                     lay-verify="required" lay-search="">
                                 <option value="">直接选择或搜索选择</option>
                                 <option value="1">年</option>
@@ -72,19 +73,27 @@
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">计划量下线</label>
-                        <div class="layui-input-block">
+                        <div class="layui-input-inline">
                             <input type="text" name="minTotalPlanAmount" placeholder="" autocomplete="off"
                                    class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">计划量上线</label>
-                        <div class="layui-input-block">
+                        <div class="layui-input-inline">
                             <input type="text" name="maxTotalPlanAmount" placeholder="" autocomplete="off"
                                    class="layui-input">
                         </div>
                     </div>
 
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">实际完成的量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="finishPlanAmount" placeholder="" value="0" autocomplete="off"
+                               class="layui-input">
+                    </div>
                 </div>
 
                 <div class="layui-form-item layui-form-text">

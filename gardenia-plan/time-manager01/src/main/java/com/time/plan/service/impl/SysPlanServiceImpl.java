@@ -38,7 +38,9 @@ public class SysPlanServiceImpl implements SysPlanService {
 
         if (entity != null) {
             entity.setRemark(sysPlan.getRemark());
-
+            entity.setMinTotalPlanAmount(sysPlan.getMinTotalPlanAmount());
+            entity.setMaxTotalPlanAmount(sysPlan.getMaxTotalPlanAmount());
+            entity.setFinishPlanAmount(sysPlan.getFinishPlanAmount());
             sysPlanMapper.updateByPrimaryKey(entity);
         }
 

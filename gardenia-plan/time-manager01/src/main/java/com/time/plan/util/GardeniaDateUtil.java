@@ -2,6 +2,7 @@ package com.time.plan.util;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Calendar;
@@ -24,10 +25,20 @@ public class GardeniaDateUtil {
 
     public static Calendar calendarAddDay(LocalDateTime localDateTime, int day) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth(),0,0,0);
+        calendar.set(localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth(), 0, 0, 0);
         calendar.add(Calendar.DAY_OF_MONTH, day);//星期一
         return calendar;
     }
+
+    public static long second(LocalDateTime localDateTime) {
+        return localDateTime.toEpochSecond(ZoneOffset.of("+8"));
+    }
+
+    public static long milliSecond(LocalDateTime localDateTime) {
+        return localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+    }
+
+
 
 //    public static void main(String[] args) {
 //        LocalDateTime now = LocalDateTime.now();

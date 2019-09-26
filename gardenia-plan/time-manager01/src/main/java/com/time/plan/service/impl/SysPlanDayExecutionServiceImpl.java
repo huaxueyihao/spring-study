@@ -5,6 +5,7 @@ import com.time.plan.bean.SumUseTimeDto;
 import com.time.plan.bean.echarts.*;
 import com.time.plan.common.PageParam;
 import com.time.plan.common.PageResult;
+import com.time.plan.exception.BusinessException;
 import com.time.plan.mapper.SysPlanDayExecutionMapper;
 import com.time.plan.mapper.SysPlanTypeMapper;
 import com.time.plan.model.SysPlanDayExecution;
@@ -37,6 +38,12 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
 
     @Override
     public void add(SysPlanDayExecution sysPlanDayExecution) {
+
+        LocalDateTime endTime = sysPlanDayExecution.getEndTime();
+        LocalDateTime startTime = sysPlanDayExecution.getStartTime();
+        long useTime = Duration.between(startTime, endTime).toMinutes();
+        sysPlanDayExecution.setUseTime((int) useTime);
+
         String typeName = sysPlanDayExecution.getTypeName();
         Optional.ofNullable(typeName).ifPresent(name -> {
             String[] split = name.split("-");
@@ -45,10 +52,6 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
         });
         sysPlanDayExecution.setUserId(1L);
         // 计算耗时
-        LocalDateTime endTime = sysPlanDayExecution.getEndTime();
-        LocalDateTime startTime = sysPlanDayExecution.getStartTime();
-        long useTime = Duration.between(startTime, endTime).toMinutes();
-        sysPlanDayExecution.setUseTime((int) useTime);
 
         sysPlanDayExecutionMapper.insert(sysPlanDayExecution);
     }
@@ -60,6 +63,14 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
 
     @Override
     public void update(SysPlanDayExecution sysPlanDayExecution) {
+//        LocalDateTime endTime = sysPlanDayExecution.getEndTime();
+//        LocalDateTime startTime = sysPlanDayExecution.getStartTime();
+//        long useTime = Duration.between(startTime, endTime).toMinutes();
+//        if (useTime <= 0) {
+//            throw new BusinessException(100L, "结束时间要在开始时间之后");
+//        }
+//        sysPlanDayExecution.setUseTime((int) useTime);
+
 
     }
 

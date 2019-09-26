@@ -1,14 +1,12 @@
 package com.time.plan.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.time.plan.validator.annotation.ComparetorGroup;
+import com.time.plan.validator.annotation.DateComparetor;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,6 +15,7 @@ import java.time.LocalDateTime;
 @ToString
 @Builder
 @Table(name = "sys_plan_day_execution")
+@DateComparetor(fieldGroup = {@ComparetorGroup(beforeField = "startTime", afterField = "endTime", subValue = 60, message = "结束日期小于开始日期")}, message = "呵")
 public class SysPlanDayExecution implements Serializable {
 
     private static final long serialVersionUID = -5424961325750528661L;
@@ -36,9 +35,6 @@ public class SysPlanDayExecution implements Serializable {
 
     @Column(name = "type_desc")
     private String typeDesc;
-
-//    @Column(name = "day_time")
-//    private LocalDate dayime;
 
     @Column(name = "start_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -65,7 +61,6 @@ public class SysPlanDayExecution implements Serializable {
 
     @Column(name = "update_time")
     private LocalDateTime updateTime;
-
 
 
 }

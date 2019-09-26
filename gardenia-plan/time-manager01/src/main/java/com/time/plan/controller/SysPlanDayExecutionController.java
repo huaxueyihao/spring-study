@@ -67,7 +67,7 @@ public class SysPlanDayExecutionController extends BaseController {
 
     @PostMapping("/add")
     @ResponseBody
-    public JSONResponse addUser(@RequestBody SysPlanDayExecution sysPlanDayExecution) {
+    public JSONResponse add(@RequestBody SysPlanDayExecution sysPlanDayExecution) {
         // 校验
         ValidatorUtil.validator(sysPlanDayExecution);
         sysPlanDayExecutionService.add(sysPlanDayExecution);
@@ -97,7 +97,8 @@ public class SysPlanDayExecutionController extends BaseController {
 
     @PostMapping("/update")
     @ResponseBody
-    public JSONResponse updateUser(@RequestBody SysPlanDayExecution sysPlanDayExecution) {
+    public JSONResponse update(@RequestBody SysPlanDayExecution sysPlanDayExecution) {
+        ValidatorUtil.validator(sysPlanDayExecution);
         sysPlanDayExecutionService.update(sysPlanDayExecution);
         return success(null);
     }
