@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 public class DayExecutionDto {
 
+    private Long id;
     private Long groupId;
     private String title;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

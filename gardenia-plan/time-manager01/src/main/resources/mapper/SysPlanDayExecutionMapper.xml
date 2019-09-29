@@ -18,6 +18,8 @@
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="plan_id" jdbcType="BIGINT" property="planId"/>
+
     </resultMap>
 
     <resultMap id="SumUseTimeMap" type="com.time.plan.bean.SumUseTimeDto">

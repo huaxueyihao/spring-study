@@ -1,11 +1,13 @@
 package com.time.plan.util;
 
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class GardeniaDateUtil {
@@ -22,7 +24,6 @@ public class GardeniaDateUtil {
         return dateWeek(LocalDateTime.parse(dateTimeStr, DateTimeFormatter.ofPattern(pattern, Locale.CHINESE)));
     }
 
-
     public static Calendar calendarAddDay(LocalDateTime localDateTime, int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth(), 0, 0, 0);
@@ -38,6 +39,11 @@ public class GardeniaDateUtil {
         return localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
     }
 
+    public static String date2Str(Date date, String pattern) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String format = simpleDateFormat.format(date);
+        return format;
+    }
 
 
 //    public static void main(String[] args) {

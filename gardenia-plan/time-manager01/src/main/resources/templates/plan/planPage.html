@@ -36,7 +36,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">类型</label>
                         <div class="layui-input-inline">
-<!--                            xm-select="select1" xm-select-radio="" xm-select-search=""-->
+                            <!--                            xm-select="select1" xm-select-radio="" xm-select-search=""-->
                             <select name="type"
                                     lay-verify="required" lay-search="">
                                 <option value="">直接选择或搜索选择</option>
@@ -89,37 +89,56 @@
                 </div>
 
                 <div class="layui-form-item">
-                    <label class="layui-form-label">实际完成的量</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="finishPlanAmount" placeholder="" value="0" autocomplete="off"
-                               class="layui-input">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">实际完成的量</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="finishPlanAmount" placeholder="" value="0" autocomplete="off"
+                                   class="layui-input">
+                        </div>
                     </div>
-                </div>
-
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">备注</label>
-                    <div class="layui-input-block">
-                        <textarea placeholder="请输入内容" name="remark" class="layui-textarea"></textarea>
-                    </div>
-                </div>
-
-
-                <div class="layui-form-item">
-
-                </div>
-
-                <hr/>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="" lay-filter="save">提交</button>
-                        <button type="button" class="layui-btn layui-btn-primary" id="close" lay-filter="close">
-                            关闭
-                        </button>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-inline">
+                            <select name="planState"
+                                    lay-verify="required" lay-search="">
+                                <option value="">直接选择或搜索选择</option>
+                                <option value="1">计划</option>
+                                <option value="2">执行</option>
+                                <option value="3">暂停</option>
+                                <option value="4">延后</option>
+                                <option value="5">完成</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-        </form>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入内容" name="remark" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+
+
+
+            <div class="layui-form-item">
+
+            </div>
+
+            <hr/>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="save">提交</button>
+                    <button type="button" class="layui-btn layui-btn-primary" id="close" lay-filter="close">
+                        关闭
+                    </button>
+                </div>
+            </div>
     </div>
+    </form>
+</div>
 </div>
 <!-- 操作列 -->
 <script type="text/html" id="auth-state">
@@ -131,12 +150,6 @@
 <script src="../layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 <!--<script src="../layuimini/js/lay-module/formSelects/formSelects.js" charset="utf-8"></script>-->
 <script>
-
-    layui.config({
-        base: '../layuimini/js/lay-module/' //此处路径请自行处理, 可以使用绝对路径
-    }).extend({
-        formSelects: 'formSelects/formSelects'
-    });
 
     layui.use(['table', 'treetable', 'treeSelect', 'form', 'iconPickerFa', 'laydate', 'formSelects'], function () {
         var $ = layui.jquery;
@@ -213,6 +226,7 @@
                             "minTotalPlanAmount": res.data.minTotalPlanAmount,
                             "maxTotalPlanAmount": res.data.maxTotalPlanAmount,
                             "finishPlanAmount": res.data.finishPlanAmount,
+                            "planState": res.data.planState,
                             "remark": res.data.remark
                         })
 

@@ -1,17 +1,14 @@
 package com.time.plan.validator;
 
-import com.time.plan.exception.BusinessException;
 import com.time.plan.validator.annotation.ComparetorGroup;
 import com.time.plan.validator.annotation.DateComparetor;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.Payload;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.temporal.TemporalField;
 import java.util.Date;
 
 
@@ -28,7 +25,6 @@ public class DateComparetorConstraintValidator implements ConstraintValidator<Da
 
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context) {
-        System.out.println(obj);
         if (obj == null) {
             return true;
         }

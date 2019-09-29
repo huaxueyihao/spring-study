@@ -41,6 +41,7 @@ public class SysPlanServiceImpl implements SysPlanService {
             entity.setMinTotalPlanAmount(sysPlan.getMinTotalPlanAmount());
             entity.setMaxTotalPlanAmount(sysPlan.getMaxTotalPlanAmount());
             entity.setFinishPlanAmount(sysPlan.getFinishPlanAmount());
+            entity.setPlanState(sysPlan.getPlanState());
             sysPlanMapper.updateByPrimaryKey(entity);
         }
 

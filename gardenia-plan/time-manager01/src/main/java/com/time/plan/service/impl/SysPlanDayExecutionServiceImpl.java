@@ -7,11 +7,14 @@ import com.time.plan.common.PageParam;
 import com.time.plan.common.PageResult;
 import com.time.plan.exception.BusinessException;
 import com.time.plan.mapper.SysPlanDayExecutionMapper;
+import com.time.plan.mapper.SysPlanMapper;
 import com.time.plan.mapper.SysPlanTypeMapper;
+import com.time.plan.model.SysPlan;
 import com.time.plan.model.SysPlanDayExecution;
 import com.time.plan.model.SysPlanType;
 import com.time.plan.service.SysPlanDayExecutionService;
 import com.time.plan.util.GardeniaDateUtil;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
@@ -36,6 +39,9 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
     @Autowired
     private SysPlanTypeMapper sysPlanTypeMapper;
 
+    @Autowired
+    private SysPlanMapper sysPlanMapper;
+
     @Override
     public void add(SysPlanDayExecution sysPlanDayExecution) {
 
@@ -58,11 +64,20 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
 
     @Override
     public SysPlanDayExecution detail(Long id) {
-        return sysPlanDayExecutionMapper.selectByPrimaryKey(id);
+        SysPlanDayExecution excution = sysPlanDayExecutionMapper.selectByPrimaryKey(id);
+        Long planId = excution.getPlanId();
+        if (planId != null && planId > 0) {
+            SysPlan sysPlan = sysPlanMapper.selectByPrimaryKey(planId);
+            Date startTime = sysPlan.getStartTime();
+            String start = GardeniaDateUtil.date2Str(startTime, "yyyy-MM-dd");
+            String end = GardeniaDateUtil.date2Str(sysPlan.getEndTime(), "yyyy-MM-dd");
+            excution.setPlanTitle(sysPlan.getTitle() + "(" + start + "至" + end + ")");
+        }
+        return excution;
     }
 
     @Override
-    public void update(SysPlanDayExecution sysPlanDayExecution) {
+    public void update(SysPlanDayExecution plan) {
 //        LocalDateTime endTime = sysPlanDayExecution.getEndTime();
 //        LocalDateTime startTime = sysPlanDayExecution.getStartTime();
 //        long useTime = Duration.between(startTime, endTime).toMinutes();
@@ -70,8 +85,20 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
 //            throw new BusinessException(100L, "结束时间要在开始时间之后");
 //        }
 //        sysPlanDayExecution.setUseTime((int) useTime);
-
-
+        SysPlanDayExecution excution = sysPlanDayExecutionMapper.selectByPrimaryKey(plan.getId());
+        if(excution != null){
+            excution.setStartTime(plan.getStartTime());
+            excution.setEndTime(plan.getEndTime());
+            excution.setTitle(plan.getTitle());
+            excution.setLocation(plan.getLocation());
+            excution.setPlanId(plan.getPlanId());
+            excution.setRemark(plan.getRemark());
+            LocalDateTime endTime = plan.getEndTime();
+            LocalDateTime startTime = plan.getStartTime();
+            long useTime = Duration.between(startTime, endTime).toMinutes();
+            excution.setUseTime((int) useTime);
+            sysPlanDayExecutionMapper.updateByPrimaryKey(excution);
+        }
     }
 
     @Override
@@ -103,7 +130,7 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
             SysPlanType planType = sysPlanTypeMapper.selectOneByExample(example);
             return DayExecutionDto.builder().
                     start(plan.getStartTime()).end(plan.getEndTime()).backgroundColor(planType.getBgColor()).
-                    groupId(1L).title(plan.getTitle()).textColor("#fff").build();
+                    groupId(1L).title(plan.getTitle()).textColor("#fff").id(plan.getId()).build();
         }).collect(Collectors.toList());
     }
 
@@ -244,14 +271,6 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
                 lineSeriesList.add(lineSeries);
             });
 
-            // x轴数据
-//            List<String> dateList = useTimeDtos.stream().map(dto -> {
-//                        LocalDate localDate = LocalDate.parse(dto.getStartTimeStr(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//                        LocalDateTime localDateTime = localDate.atStartOfDay();
-//                        return GardeniaDateUtil.dateWeek(localDateTime);
-//                    }
-//            ).distinct().collect(Collectors.toList());
-
             List<String> dateList = dates.stream().map(date -> {
                 LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 LocalDateTime tempTime = localDate.atStartOfDay();
@@ -295,4 +314,6 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
         seriesDataList.add(seriesData);
         lengendData.add(typeDesc);
     }
+
+
 }

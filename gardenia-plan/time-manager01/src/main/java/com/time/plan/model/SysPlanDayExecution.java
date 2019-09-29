@@ -62,5 +62,12 @@ public class SysPlanDayExecution implements Serializable {
     @Column(name = "update_time")
     private LocalDateTime updateTime;
 
+    @Column(name = "plan_id")
+    private Long planId;
+
+    @Transient
+    private String planTitle;
+
+
 
 }

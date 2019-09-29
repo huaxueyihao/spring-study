@@ -94,7 +94,8 @@ create table sys_plan_day_execution (
     location varchar (100) comment '位置',
     create_time timestamp  default CURRENT_TIMESTAMP comment '创建时间',
     update_time timestamp  default CURRENT_TIMESTAMP
-        on update CURRENT_TIMESTAMP comment '修改时间'
+        on update CURRENT_TIMESTAMP comment '修改时间',
+    plan_id bigint(20)  comment '计划id',
 )  default charset=utf8 ;
 
 

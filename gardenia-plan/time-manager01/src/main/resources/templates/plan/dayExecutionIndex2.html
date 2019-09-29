@@ -145,7 +145,7 @@
                         layui.layer.open({
                             type: 2,
                             title: "增加类型",
-                            area: ['700px', '530px'],
+                            area: ['900px', '530px'],
                             shade: 0.7,
                             shadeClose: true,
                             scrollbar: true,
@@ -186,11 +186,30 @@
                 alert('a day has been clicked!');
 
 
+
             },
             eventClick: function (info) {
                 // alert(info);
-                console.log(info);
+                // console.log(info);
+                // console.log(info.event);
                 console.log(info.event);
+                console.log(info.event.id);
+
+                layui.layer.open({
+                    type: 2,
+                    title: "增加类型",
+                    area: ['900px', '530px'],
+                    shade: 0.7,
+                    shadeClose: true,
+                    scrollbar: true,
+                    resize: true,
+                    maxmin: true,
+                    content: ["/plan/dayExecutionPage", 'yes'],
+                    success: function (layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        body.contents().find("#primaryKey").val(info.event.id);
+                    },
+                });
 
 
             },
