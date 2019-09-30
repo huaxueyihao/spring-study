@@ -86,7 +86,7 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
 //        }
 //        sysPlanDayExecution.setUseTime((int) useTime);
         SysPlanDayExecution excution = sysPlanDayExecutionMapper.selectByPrimaryKey(plan.getId());
-        if(excution != null){
+        if (excution != null) {
             excution.setStartTime(plan.getStartTime());
             excution.setEndTime(plan.getEndTime());
             excution.setTitle(plan.getTitle());
@@ -170,17 +170,14 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
     public Map<String, Object> sumAllGroupByPlanType(Long dateTime) {
 
         LocalDateTime localDateTime = dateTime == null ? LocalDateTime.now() : LocalDateTime.ofEpochSecond(dateTime / 1000, 0, ZoneOffset.ofHours(8));
-        ;
         int value = localDateTime.getDayOfWeek().getValue();
-        Calendar cal = GardeniaDateUtil.calendarAddDay(localDateTime, 1 - value);
         // 星期一
-        LocalDateTime firstDayOfWeek = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
-        cal = GardeniaDateUtil.calendarAddDay(firstDayOfWeek, 6);
+        LocalDateTime firstDayOfWeek = localDateTime.plusDays(1 - value);
+        firstDayOfWeek = LocalDateTime.of(firstDayOfWeek.getYear(),firstDayOfWeek.getMonthValue(),firstDayOfWeek.getDayOfMonth(),0,0,0);
         // 星期七
-        LocalDateTime sevenDayOfWeek = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 23, 59, 59);
+        LocalDateTime sevenDayOfWeek = firstDayOfWeek.plusDays(6);
+        sevenDayOfWeek = LocalDateTime.of(sevenDayOfWeek.getYear(),sevenDayOfWeek.getMonthValue(),sevenDayOfWeek.getDayOfMonth(),23,59,59);
 
-
-//        List<SumUseTimeDto> sumUseTimeDtos = sysPlanDayExecutionMapper.sumUseTimeGroupByType();
         List<SumUseTimeDto> sumUseTimeDtos = sysPlanDayExecutionMapper.sumUseTimeGroupByTypeAndStartTimeBetween(firstDayOfWeek, sevenDayOfWeek);
         Map<String, Object> map = new HashMap<>();
         if (sumUseTimeDtos != null && sumUseTimeDtos.size() > 0) {
@@ -199,14 +196,14 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
     public Map<String, Object> sumAllGroupByPlanTypeAndStartTime(Long dateTime) {
 
         LocalDateTime localDateTime = dateTime == null ? LocalDateTime.now() : LocalDateTime.ofEpochSecond(dateTime / 1000, 0, ZoneOffset.ofHours(8));
-        ;
         int value = localDateTime.getDayOfWeek().getValue();
-        Calendar cal = GardeniaDateUtil.calendarAddDay(localDateTime, 1 - value);
         // 星期一
-        LocalDateTime firstDayOfWeek = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
-        cal = GardeniaDateUtil.calendarAddDay(firstDayOfWeek, 6);
+        LocalDateTime firstDayOfWeek = localDateTime.plusDays(1 - value);
+        firstDayOfWeek = LocalDateTime.of(firstDayOfWeek.getYear(),firstDayOfWeek.getMonthValue(),firstDayOfWeek.getDayOfMonth(),0,0,0);
         // 星期七
-        LocalDateTime sevenDayOfWeek = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 23, 59, 59);
+        LocalDateTime sevenDayOfWeek = firstDayOfWeek.plusDays(6);
+        sevenDayOfWeek = LocalDateTime.of(sevenDayOfWeek.getYear(),sevenDayOfWeek.getMonthValue(),sevenDayOfWeek.getDayOfMonth(),23,59,59);
+
 
         Map<String, Object> map = new HashMap<>();
         // 名称 按耗时降序排序
@@ -226,8 +223,8 @@ public class SysPlanDayExecutionServiceImpl implements SysPlanDayExecutionServic
             LocalDate firstLocalDate = LocalDate.of(firstDayOfWeek.getYear(), firstDayOfWeek.getMonthValue(), firstDayOfWeek.getDayOfMonth());
             dates.add(firstLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             for (int i = 1; i < 7; i++) {
-                cal = GardeniaDateUtil.calendarAddDay(firstDayOfWeek, i);
-                LocalDate tempTime = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+                LocalDateTime temp = firstDayOfWeek.plusDays(i);
+                LocalDate tempTime = LocalDate.of(temp.getYear(), temp.getMonthValue(), temp.getDayOfMonth());
                 String format = tempTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 dates.add(format);
             }
