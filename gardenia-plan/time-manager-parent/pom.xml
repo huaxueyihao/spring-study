@@ -28,7 +28,7 @@
         <commons.lang3.version>3.8.1</commons.lang3.version>
         <commons.io.version>2.6</commons.io.version>
         <fastdfs.client.version>1.0-SNAPSHOT</fastdfs.client.version>
-        <jdbc.mysql.version>5.1.32</jdbc.mysql.version>
+        <jdbc.mysql.version>8.0.16</jdbc.mysql.version>
     </properties>
 
     <dependencyManagement>
